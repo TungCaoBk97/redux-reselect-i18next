@@ -1,26 +1,30 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import ItemList from "./ItemList";
+import { editTestString } from "./actions";
+import { connect } from "react-redux";
+import { useTranslation } from "react-i18next";
 
-function App() {
+const App = ({ testString, editTestString }) => {
+  const { i18n } = useTranslation();
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <ItemList />
+      <h2>--------------------------------</h2>
+      <h3>{testString}</h3>
+      <input type="text" onChange={e => editTestString(e)} />
+      <button onClick={() => i18n.changeLanguage("en")}>en</button>
+      <button onClick={() => i18n.changeLanguage("vi")}>vi</button>
     </div>
   );
-}
+};
 
-export default App;
+const mapState = state => ({
+  testString: state.testString
+});
+
+const mapDispatch = dispatch => ({
+  editTestString: e => dispatch(editTestString(e.target.value))
+});
+
+export default connect(mapState, mapDispatch)(App);
