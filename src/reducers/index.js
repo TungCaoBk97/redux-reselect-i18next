@@ -1,4 +1,10 @@
-import { ADD_ITEM, REMOVE_ITEM, EDIT_TEST_STRING } from "./actions";
+import {
+  ADD_ITEM,
+  REMOVE_ITEM,
+  EDIT_TEST_STRING,
+  INCREMENT,
+  API_RESPONSE
+} from "../actions";
 import _ from "lodash";
 import { combineReducers } from "redux";
 
@@ -33,7 +39,27 @@ const testString = (state = "", action) => {
   }
 };
 
+const counter = (state = 0, action) => {
+  switch (action.type) {
+    case INCREMENT:
+      return state + 1;
+    default:
+      return state;
+  }
+};
+
+const remoteItem = (state = null, action) => {
+  switch (action.type) {
+    case API_RESPONSE:
+      return action.item;
+    default:
+      return state;
+  }
+};
+
 export default combineReducers({
   items,
-  testString
+  testString,
+  counter,
+  remoteItem
 });

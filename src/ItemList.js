@@ -82,7 +82,7 @@ const mapState = createSelector(
     console.log("MapState Item List");
     return {
       items: _.values(items),
-      selectItem: id => items[id]
+      selectItem: id => (items[id] === undefined ? null : items[id])
     };
   }
 );
