@@ -6,7 +6,7 @@ function* increaseAsyncSaga() {
   yield put(increment());
 }
 
-const apiCall = url => fetch(url).then(response => response.json());
+const apiCall = url => fetch(url).then(res => res.json());
 
 function* apiRequestSaga(action) {
   const json = yield call(

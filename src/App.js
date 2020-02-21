@@ -1,63 +1,54 @@
-import React, { useState } from "react";
-import ItemList from "./ItemList";
-import { editTestString, increaseAsync, apiRequest } from "./actions";
-import { connect } from "react-redux";
-import { useTranslation } from "react-i18next";
+import React from "react";
+import MainLayout from "./components/MainLayout";
+import { BrowserRouter, Route, Redirect, Switch } from "react-router-dom";
+import Login from "./components/Login";
 
-const ShowItem = ({ item }) => (
-  <div>
-    <h1>userId: {item.userId} </h1>
-    <h2>Id: {item.id} </h2>
-    <h2>Title: {item.title} </h2>
-  </div>
+const App = () => (
+  <BrowserRouter>
+    <Switch>
+      <Route path="/login">
+        <Login />
+      </Route>
+
+      <Route exact path="/">
+        <MainLayout>
+          <h2>HOME PAGE</h2>
+        </MainLayout>
+      </Route>
+
+      <Route path="/admin/create-user">
+        <MainLayout>
+          <h2>Create User</h2>
+          <h2>Create User</h2>
+          <h2>Create User</h2>
+        </MainLayout>
+      </Route>
+
+      <Route path="/admin/view-users">
+        <MainLayout>
+          <h2>View Users</h2>
+        </MainLayout>
+      </Route>
+
+      <Route path="/order/view-orders">
+        <MainLayout>
+          <h2>View Orders</h2>
+        </MainLayout>
+      </Route>
+
+      <Route path="/order/create-order">
+        <MainLayout>
+          <h2>Create Order</h2>
+        </MainLayout>
+      </Route>
+
+      <Route path="/error">
+        <h1>ERROR</h1>
+      </Route>
+
+      <Redirect to="/error" />
+    </Switch>
+  </BrowserRouter>
 );
 
-const App = ({
-  testString,
-  editTestString,
-  counter,
-  remoteItem,
-  increaseAsync,
-  loadData
-}) => {
-  const { i18n } = useTranslation();
-  const [remoteId, setRemoteId] = useState(1);
-
-  return (
-    <div>
-      <ItemList />
-      <h2>--------------------------------</h2>
-      <h3>{testString}</h3>
-      <input type="text" onChange={e => editTestString(e)} />
-      <button onClick={() => i18n.changeLanguage("en")}>en</button>
-      <button onClick={() => i18n.changeLanguage("vi")}>vi</button>
-
-      <h2>Counter: {counter}</h2>
-      <button onClick={increaseAsync}>Increase Async</button>
-      <div>
-        <input
-          type="text"
-          onChange={e => setRemoteId(parseInt(e.target.value))}
-          value={remoteId}
-        />
-        <button onClick={() => loadData(remoteId)}>Load Data</button>
-
-        {remoteItem === null ? <div></div> : <ShowItem item={remoteItem} />}
-      </div>
-    </div>
-  );
-};
-
-const mapState = state => ({
-  testString: state.testString,
-  counter: state.counter,
-  remoteItem: state.remoteItem
-});
-
-const mapDispatch = dispatch => ({
-  editTestString: e => dispatch(editTestString(e.target.value)),
-  increaseAsync: () => dispatch(increaseAsync()),
-  loadData: id => dispatch(apiRequest(id))
-});
-
-export default connect(mapState, mapDispatch)(App);
+export default App;
